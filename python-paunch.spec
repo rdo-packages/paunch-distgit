@@ -21,7 +21,7 @@ BuildRequires:  python-testrepository
 BuildRequires:  python-testscenarios
 
 Requires:   python-cliff
-Requires:   docker-common
+Requires:   docker
 Requires:   python-pbr
 
 %description
