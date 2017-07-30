@@ -13,6 +13,7 @@ BuildArch:  noarch
 BuildRequires:  python-setuptools
 BuildRequires:  python-pbr
 BuildRequires:  python2-devel
+BuildRequires:  PyYAML
 
 # test requires
 BuildRequires:  python-mock
@@ -21,8 +22,9 @@ BuildRequires:  python-testrepository
 BuildRequires:  python-testscenarios
 
 Requires:   python-cliff
-Requires:   docker-common
+Requires:   docker
 Requires:   python-pbr
+Requires:   PyYAML
 
 %description
 Library and utility to launch and manage containers using YAML based configuration data.
