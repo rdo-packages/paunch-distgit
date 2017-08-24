@@ -1,8 +1,8 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 %global pypi_name paunch
 Name:       python-%{pypi_name}
-Version:    XXX
-Release:    XXX
+Version:    1.5.0
+Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
 License:    ASL 2.0
@@ -93,3 +93,6 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{python2_sitelib}/%{pypi_name}/tests
 
 %changelog
+* Thu Aug 24 2017 Alfredo Moralejo <amoralej@redhat.com> 1.5.0-1
+- Update to 1.5.0
+
