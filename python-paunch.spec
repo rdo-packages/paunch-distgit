@@ -36,6 +36,7 @@ Summary: Documentation for paunch library and utility
 
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx
+BuildRequires: openstack-macros
 
 %description doc
 Library and utility to launch and manage containers using YAML based configuration data.
@@ -60,7 +61,7 @@ This package contains library and utility tests.
 %setup -q -n %{pypi_name}-%{upstream_version}
 
 # Let's handle dependencies ourseleves
-rm -f *requirements.txt
+%py_req_cleanup
 
 %build
 
