@@ -1,5 +1,9 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 %global pypi_name paunch
+
+%global common_desc \
+Library and utility to launch and manage containers using YAML based configuration data.
+
 Name:       python-%{pypi_name}
 Version:    XXX
 Release:    XXX
@@ -27,7 +31,7 @@ Requires:   python-pbr
 Requires:   PyYAML
 
 %description
-Library and utility to launch and manage containers using YAML based configuration data.
+%{common_desc}
 
 This package contains the paunch python library code and the command utility.
 
@@ -39,7 +43,7 @@ BuildRequires: python-oslo-sphinx
 BuildRequires: openstack-macros
 
 %description doc
-Library and utility to launch and manage containers using YAML based configuration data.
+%{common_desc}
 
 This package contains auto-generated documentation.
 
@@ -53,7 +57,7 @@ Requires:  python-testrepository
 Requires:  python-testscenarios
 
 %description tests
-Library and utility to launch and manage containers using YAML based configuration data.
+%{common_desc}
 
 This package contains library and utility tests.
 
