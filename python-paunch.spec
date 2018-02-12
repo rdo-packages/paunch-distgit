@@ -14,20 +14,20 @@ URL:        http://pypi.python.org/pypi/%{pypi_name}
 Source0:    https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
 
 BuildArch:  noarch
-BuildRequires:  python-setuptools
-BuildRequires:  python-pbr
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-pbr
 BuildRequires:  python2-devel
 BuildRequires:  PyYAML
 
 # test requires
-BuildRequires:  python-mock
-BuildRequires:  python-oslotest
-BuildRequires:  python-testrepository
-BuildRequires:  python-testscenarios
+BuildRequires:  python2-mock
+BuildRequires:  python2-oslotest
+BuildRequires:  python2-testrepository
+BuildRequires:  python2-testscenarios
 
-Requires:   python-cliff
+Requires:   python2-cliff
 Requires:   docker
-Requires:   python-pbr
+Requires:   python2-pbr
 Requires:   PyYAML
 
 %description
@@ -38,8 +38,8 @@ This package contains the paunch python library code and the command utility.
 %package doc
 Summary: Documentation for paunch library and utility
 
-BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx
+BuildRequires: python2-sphinx
+BuildRequires: python2-oslo-sphinx
 BuildRequires: openstack-macros
 
 %description doc
@@ -51,10 +51,10 @@ This package contains auto-generated documentation.
 Summary: Tests for paunch library and utility
 
 Requires:  python-%{pypi_name}
-Requires:  python-mock
-Requires:  python-oslotest
-Requires:  python-testrepository
-Requires:  python-testscenarios
+Requires:  python2-mock
+Requires:  python2-oslotest
+Requires:  python2-testrepository
+Requires:  python2-testscenarios
 
 %description tests
 %{common_desc}
