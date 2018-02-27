@@ -24,6 +24,7 @@ BuildRequires:  python2-mock
 BuildRequires:  python2-oslotest
 BuildRequires:  python2-testrepository
 BuildRequires:  python2-testscenarios
+BuildRequires:  python2-tenacity >= 3.2.1
 
 Requires:   python2-cliff
 Requires:   docker
@@ -56,6 +57,7 @@ Requires:  python2-mock
 Requires:  python2-oslotest
 Requires:  python2-testrepository
 Requires:  python2-testscenarios
+Requires:  python2-tenacity >= 3.2.1
 
 %description tests
 %{common_desc}
