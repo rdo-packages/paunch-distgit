@@ -29,6 +29,7 @@ Requires:   python2-cliff
 Requires:   docker
 Requires:   python2-pbr
 Requires:   PyYAML
+Requires:   python2-tenacity >= 3.2.1
 
 %description
 %{common_desc}
