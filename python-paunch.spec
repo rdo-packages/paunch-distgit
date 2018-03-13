@@ -1,7 +1,7 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 %global pypi_name paunch
 Name:       python-%{pypi_name}
-Version:    1.5.3
+Version:    1.5.5
 Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
@@ -93,6 +93,9 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{python2_sitelib}/%{pypi_name}/tests
 
 %changelog
+* Tue Mar 13 2018 RDO <dev@lists.rdoproject.org> 1.5.5-1
+- Update to 1.5.5
+
 * Wed Dec 13 2017 RDO <dev@lists.rdoproject.org> 1.5.3-1
 - Update to 1.5.3
 
