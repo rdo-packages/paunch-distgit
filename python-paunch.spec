@@ -5,7 +5,7 @@
 Library and utility to launch and manage containers using YAML based configuration data.
 
 Name:       python-%{pypi_name}
-Version:    2.3.0
+Version:    2.4.0
 Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
@@ -101,6 +101,9 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{python2_sitelib}/%{pypi_name}/tests
 
 %changelog
+* Tue Mar 27 2018 Jon Schlueter <jschluet@redhat.com> 2.4.0-1
+- Update to 2.4.0
+
 * Mon Mar 05 2018 RDO <dev@lists.rdoproject.org> 2.3.0-1
 - Update to 2.3.0
 
