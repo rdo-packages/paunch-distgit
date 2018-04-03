@@ -101,3 +101,4 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{python2_sitelib}/%{pypi_name}/tests
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack/paunch/commit/?id=4a4f43ac36c3edc2645c8fff5cf783415ea3f1cf
