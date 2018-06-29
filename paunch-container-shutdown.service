@@ -1,0 +1,17 @@
+[Unit]
+Description=Paunch Container Shutdown
+Documentation=https://docs.openstack.org/developer/paunch/
+After=docker.service network-online.target iptables.service ip6tables.service
+Before=shutdown.target
+RefuseManualStop=yes
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+ExecStop=/usr/libexec/paunch-container-shutdown
+# Wait at most 900 seconds for all containers to shutdown
+TimeoutStopSec=900
+
+[Install]
+WantedBy=multi-user.target

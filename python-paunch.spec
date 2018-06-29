@@ -12,12 +12,16 @@ Summary:    Library and utility to launch and manage containers using YAML based
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{pypi_name}
 Source0:    https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
+Source10:   paunch-container-shutdown
+Source11:   paunch-container-shutdown.service
+Source12:   91-paunch-container-shutdown.preset
 
 BuildArch:  noarch
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pbr
 BuildRequires:  python2-devel
 BuildRequires:  PyYAML
+BuildRequires:  systemd-units
 
 # test requires
 BuildRequires:  python2-mock
@@ -31,6 +35,11 @@ Requires:   docker
 Requires:   python2-pbr
 Requires:   PyYAML
 Requires:   python2-tenacity >= 3.2.1
+Requires:   findutils
+
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 
 %description
 %{common_desc}
@@ -77,6 +86,15 @@ This package contains library and utility tests.
 %install
 %py2_install
 
+# Install shutdown script
+install -p -D -m 755 %{SOURCE10} %{buildroot}%{_libexecdir}/paunch-container-shutdown
+
+# Install systemd units
+install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/paunch-container-shutdown.service
+
+# Install systemd preset
+install -p -D -m 644 %{SOURCE12} %{buildroot}%{_presetdir}/91-paunch-container-shutdown.preset
+
 # generate html docs
 %{__python2} setup.py build_sphinx
 # remove the sphinx-build leftovers
@@ -85,11 +103,20 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %check
 %{__python2} setup.py test
 
+%post
+%systemd_post paunch-container-shutdown.service
+
+%preun
+%systemd_preun paunch-container-shutdown.service
+
 %files
 %doc README.rst
 %license LICENSE
 %{_bindir}/%{pypi_name}
 %{python2_sitelib}/%{pypi_name}*
+%{_libexecdir}/paunch-container-shutdown
+%{_unitdir}/paunch-container-shutdown.service
+%{_presetdir}/91-paunch-container-shutdown.preset
 %exclude %{python2_sitelib}/%{pypi_name}/tests
 
 %files doc
