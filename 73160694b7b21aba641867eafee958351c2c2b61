@@ -1,0 +1,11 @@
+Code-Review+2: Steve Baker <sbaker@redhat.com>
+Code-Review+1: Bogdan Dobrelya <bdobreli@redhat.com>
+Code-Review+1: Brent Eagles <beagles@redhat.com>
+Code-Review+2: Emilien Macchi <emilien@redhat.com>
+Workflow+1: Emilien Macchi <emilien@redhat.com>
+Verified+2: Zuul CI <zuul@review.rdoproject.org>
+Submitted-by: Zuul CI <zuul@review.rdoproject.org>
+Submitted-at: Tue, 03 Jul 2018 14:38:08 +0000
+Reviewed-on: https://review.rdoproject.org/r/14540
+Project: openstack/paunch-distgit
+Branch: refs/heads/rpm-master
