@@ -51,6 +51,7 @@ Summary: Documentation for paunch library and utility
 
 BuildRequires: python2-sphinx
 BuildRequires: python2-oslo-sphinx
+BuildRequires: python2-openstackdocstheme
 BuildRequires: openstack-macros
 
 %description doc
