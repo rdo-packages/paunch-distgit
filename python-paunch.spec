@@ -1,4 +1,18 @@
+# Macros for py2/py3 compatibility
+%if 0%{?fedora} || 0%{?rhel} > 7
+%global pydefault 3
+%else
+%global pydefault 2
+%endif
+
+%global pydefault_bin python%{pydefault}
+%global pydefault_sitelib %python%{pydefault}_sitelib
+%global pydefault_install %py%{pydefault}_install
+%global pydefault_build %py%{pydefault}_build
+# End of macros for py2/py3 compatibility
+
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+
 %global pypi_name paunch
 
 %global common_desc \
@@ -17,62 +31,84 @@ Source11:   paunch-container-shutdown.service
 Source12:   91-paunch-container-shutdown.preset
 
 BuildArch:  noarch
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-pbr
-BuildRequires:  python2-devel
-BuildRequires:  PyYAML
-BuildRequires:  systemd-units
-
-# test requires
-BuildRequires:  python2-mock
-BuildRequires:  python2-oslotest
-BuildRequires:  python2-testrepository
-BuildRequires:  python2-testscenarios
-BuildRequires:  python2-tenacity >= 3.2.1
-
-Requires:   python2-cliff
 Requires:   docker
-Requires:   python2-pbr
-Requires:   PyYAML
-Requires:   python2-tenacity >= 3.2.1
 Requires:   findutils
+Requires:   paunch-services
 
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
 
 %description
 %{common_desc}
 
-This package contains the paunch python library code and the command utility.
+%package -n python%{pydefault}-%{pypi_name}
+%{?python_provide:%python_provide python%{pydefault}-%{pypi_name}}
+Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
-%package doc
+BuildRequires:  python%{pydefault}-setuptools
+BuildRequires:  python%{pydefault}-pbr
+BuildRequires:  python%{pydefault}-devel
+
+# test requires
+BuildRequires:  python%{pydefault}-mock
+BuildRequires:  python%{pydefault}-oslotest
+BuildRequires:  python%{pydefault}-subunit
+BuildRequires:  python%{pydefault}-testrepository
+BuildRequires:  python%{pydefault}-testscenarios
+BuildRequires:  python%{pydefault}-tenacity >= 3.2.1
+
+Requires:   python%{pydefault}-cliff
+Requires:   python%{pydefault}-pbr
+Requires:   python%{pydefault}-tenacity >= 3.2.1
+
+%if %{pydefault} == 2
+BuildRequires:  PyYAML
+Requires:       PyYAML
+%else
+BuildRequires:  python%{pydefault}-PyYAML
+Requires:       python%{pydefault}-PyYAML
+%endif
+
+%description -n python%{pydefault}-%{pypi_name}
+%{common_desc}
+
+%package -n python%{pydefault}-%{pypi_name}-doc
 Summary: Documentation for paunch library and utility
 
-BuildRequires: python2-sphinx
-BuildRequires: python2-oslo-sphinx
-BuildRequires: python2-openstackdocstheme
+BuildRequires: python%{pydefault}-sphinx
+BuildRequires: python%{pydefault}-oslo-sphinx
+BuildRequires: python%{pydefault}-openstackdocstheme
 BuildRequires: openstack-macros
 
-%description doc
+%description -n python%{pydefault}-%{pypi_name}-doc
 %{common_desc}
 
 This package contains auto-generated documentation.
 
-%package tests
+%package -n python%{pydefault}-%{pypi_name}-tests
 Summary: Tests for paunch library and utility
 
-Requires:  python-%{pypi_name}
-Requires:  python2-mock
-Requires:  python2-oslotest
-Requires:  python2-testrepository
-Requires:  python2-testscenarios
-Requires:  python2-tenacity >= 3.2.1
+Requires:  python%{pydefault}-%{pypi_name}
+Requires:  python%{pydefault}-mock
+Requires:  python%{pydefault}-oslotest
+Requires:  python%{pydefault}-subunit
+Requires:  python%{pydefault}-testrepository
+Requires:  python%{pydefault}-testscenarios
+Requires:  python%{pydefault}-tenacity >= 3.2.1
 
-%description tests
+%description -n python%{pydefault}-%{pypi_name}-tests
 %{common_desc}
 
 This package contains library and utility tests.
+
+%package -n paunch-services
+Summary: Services related to paunch
+BuildRequires:  systemd-units
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+
+%description -n paunch-services
+This package contains service definitions related to paunch
+
 
 %prep
 %setup -q -n %{pypi_name}-%{upstream_version}
@@ -81,11 +117,10 @@ This package contains library and utility tests.
 %py_req_cleanup
 
 %build
-
-%py2_build
+%pydefault_build
 
 %install
-%py2_install
+%pydefault_install
 
 # Install shutdown script
 install -p -D -m 755 %{SOURCE10} %{buildroot}%{_libexecdir}/paunch-container-shutdown
@@ -97,35 +132,38 @@ install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/paunch-container-shutdo
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_presetdir}/91-paunch-container-shutdown.preset
 
 # generate html docs
-%{__python2} setup.py build_sphinx
+%{pydefault_bin} setup.py build_sphinx
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
-%check
-%{__python2} setup.py test
+%check -n python%{pydefault}-%{pypi_name}
+PYTHON=python%{pydefault} %{pydefault_bin} setup.py test
 
-%post
+%post -n paunch-services
 %systemd_post paunch-container-shutdown.service
 
-%preun
+%preun -n paunch-services
 %systemd_preun paunch-container-shutdown.service
 
-%files
+%files -n python%{pydefault}-%{pypi_name}
 %doc README.rst
 %license LICENSE
 %{_bindir}/%{pypi_name}
-%{python2_sitelib}/%{pypi_name}*
-%{_libexecdir}/paunch-container-shutdown
-%{_unitdir}/paunch-container-shutdown.service
-%{_presetdir}/91-paunch-container-shutdown.preset
-%exclude %{python2_sitelib}/%{pypi_name}/tests
+%{pydefault_sitelib}/%{pypi_name}*
+%exclude %{pydefault_sitelib}/%{pypi_name}/tests
 
-%files doc
+%files -n python%{pydefault}-%{pypi_name}-doc
 %doc doc/build/html
 %license LICENSE
 
-%files tests
+%files -n python%{pydefault}-%{pypi_name}-tests
 %license LICENSE
-%{python2_sitelib}/%{pypi_name}/tests
+%{pydefault_sitelib}/%{pypi_name}/tests
+
+%files -n paunch-services
+%license LICENSE
+%{_libexecdir}/paunch-container-shutdown
+%{_unitdir}/paunch-container-shutdown.service
+%{_presetdir}/91-paunch-container-shutdown.preset
 
 %changelog
