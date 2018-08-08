@@ -1,4 +1,9 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+
+%if 0%{?fedora} >= 28
+%global with_python3 1
+%endif
+
 %global pypi_name paunch
 
 %global common_desc \
@@ -17,11 +22,21 @@ Source11:   paunch-container-shutdown.service
 Source12:   91-paunch-container-shutdown.preset
 
 BuildArch:  noarch
+Requires:   docker
+Requires:   findutils
+Requires:   paunch-services
+
+
+%description
+%{common_desc}
+
+%package -n python2-%{pypi_name}
+Summary:    Library and utility to launch and manage containers using YAML based configuration data
+%{?python_provide:%python_provide python2-%{pypi_name}}
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pbr
 BuildRequires:  python2-devel
 BuildRequires:  PyYAML
-BuildRequires:  systemd-units
 
 # test requires
 BuildRequires:  python2-mock
@@ -31,22 +46,39 @@ BuildRequires:  python2-testscenarios
 BuildRequires:  python2-tenacity >= 3.2.1
 
 Requires:   python2-cliff
-Requires:   docker
 Requires:   python2-pbr
 Requires:   PyYAML
 Requires:   python2-tenacity >= 3.2.1
-Requires:   findutils
 
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
-
-%description
+%description -n python2-%{pypi_name}
 %{common_desc}
 
-This package contains the paunch python library code and the command utility.
+%if 0%{?with_python3}
+%package -n python3-%{pypi_name}
+Summary:    Library and utility to launch and manage containers using YAML based configuration data
+%{?python_provide:%python_provide python3-%{pypi_name}}
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-pbr
+BuildRequires:  python3-devel
+BuildRequires:  python3-PyYAML
 
-%package doc
+# test requires
+BuildRequires:  python3-mock
+BuildRequires:  python3-oslotest
+BuildRequires:  python3-testrepository
+BuildRequires:  python3-testscenarios
+BuildRequires:  python3-tenacity >= 3.2.1
+
+Requires:   python3-cliff
+Requires:   python3-pbr
+Requires:   python3-PyYAML
+Requires:   python3-tenacity >= 3.2.1
+
+%description -n python3-%{pypi_name}
+%{common_desc}
+%endif
+
+%package -n python2-%{pypi_name}-doc
 Summary: Documentation for paunch library and utility
 
 BuildRequires: python2-sphinx
@@ -54,25 +86,70 @@ BuildRequires: python2-oslo-sphinx
 BuildRequires: python2-openstackdocstheme
 BuildRequires: openstack-macros
 
-%description doc
+%description -n python2-%{pypi_name}-doc
 %{common_desc}
 
 This package contains auto-generated documentation.
 
-%package tests
+
+
+%if 0%{?with_python3}
+%package -n python3-%{pypi_name}-doc
+Summary: Documentation for paunch library and utility
+
+BuildRequires: python3-sphinx
+BuildRequires: python3-oslo-sphinx
+BuildRequires: python3-openstackdocstheme
+BuildRequires: openstack-macros
+
+%description -n python3-%{pypi_name}-doc
+%{common_desc}
+
+This package contains auto-generated documentation.
+%endif
+
+%package -n python2-%{pypi_name}-tests
 Summary: Tests for paunch library and utility
 
-Requires:  python-%{pypi_name}
+Requires:  python2-%{pypi_name}
 Requires:  python2-mock
 Requires:  python2-oslotest
 Requires:  python2-testrepository
 Requires:  python2-testscenarios
 Requires:  python2-tenacity >= 3.2.1
 
-%description tests
+%description -n python2-%{pypi_name}-tests
 %{common_desc}
 
 This package contains library and utility tests.
+
+%if 0%{?with_python3}
+%package -n python3-%{pypi_name}-tests
+Summary: Tests for paunch library and utility
+
+Requires:  python3-%{pypi_name}
+Requires:  python3-mock
+Requires:  python3-oslotest
+Requires:  python3-testrepository
+Requires:  python3-testscenarios
+Requires:  python3-tenacity >= 3.2.1
+
+%description -n python3-%{pypi_name}-tests
+%{common_desc}
+
+This package contains library and utility tests.
+%endif
+
+%package -n paunch-services
+Summary: Services related to paunch
+BuildRequires:  systemd-units
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+
+%description -n paunch-services
+This package contains service definitions related to paunch
+
 
 %prep
 %setup -q -n %{pypi_name}-%{upstream_version}
@@ -81,10 +158,17 @@ This package contains library and utility tests.
 %py_req_cleanup
 
 %build
-
 %py2_build
+%if 0%{?with_python3}
+%py3_build
+%endif
 
 %install
+%if 0%{?with_python3}
+%py3_install
+mv %{buildroot}%{_bindir}/%{pypi_name}\
+   %{buildroot}%{_bindir}/%{pypi_name}-py3
+%endif
 %py2_install
 
 # Install shutdown script
@@ -104,28 +188,51 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %check
 %{__python2} setup.py test
 
-%post
+%post -n paunch-services
 %systemd_post paunch-container-shutdown.service
 
-%preun
+%preun -n paunch-services
 %systemd_preun paunch-container-shutdown.service
 
-%files
+%files -n python2-%{pypi_name}
 %doc README.rst
 %license LICENSE
 %{_bindir}/%{pypi_name}
 %{python2_sitelib}/%{pypi_name}*
-%{_libexecdir}/paunch-container-shutdown
-%{_unitdir}/paunch-container-shutdown.service
-%{_presetdir}/91-paunch-container-shutdown.preset
 %exclude %{python2_sitelib}/%{pypi_name}/tests
 
-%files doc
+%files -n python3-%{pypi_name}
+%doc README.rst
+%license LICENSE
+%{_bindir}/%{pypi_name}-py3
+%{python3_sitelib}/%{pypi_name}*
+%exclude %{python3_sitelib}/%{pypi_name}/tests
+
+%files -n python2-%{pypi_name}-doc
 %doc doc/build/html
 %license LICENSE
 
-%files tests
+%if 0%{?with_python3}
+%files -n python3-%{pypi_name}-doc
+%doc doc/build/html
+%license LICENSE
+%endif
+
+%files-n python2-%{pypi_name}- tests
 %license LICENSE
 %{python2_sitelib}/%{pypi_name}/tests
+
+%if 0%{?with_python3}
+%files-n python3-%{pypi_name}- tests
+%license LICENSE
+%{python3_sitelib}/%{pypi_name}/tests
+%endif
+
+%files -n paunch-services
+%license LICENSE
+%{_libexecdir}/paunch-container-shutdown
+%{_unitdir}/paunch-container-shutdown.service
+%{_presetdir}/91-paunch-container-shutdown.preset
+
 
 %changelog
