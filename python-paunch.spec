@@ -5,8 +5,8 @@
 Library and utility to launch and manage containers using YAML based configuration data.
 
 Name:       python-%{pypi_name}
-Version:    XXX
-Release:    XXX
+Version:    3.2.0
+Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
 License:    ASL 2.0
@@ -129,3 +129,6 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{python2_sitelib}/%{pypi_name}/tests
 
 %changelog
+* Mon Aug 27 2018 RDO <dev@lists.rdoproject.org> 3.2.0-1
+- Update to 3.2.0
+
