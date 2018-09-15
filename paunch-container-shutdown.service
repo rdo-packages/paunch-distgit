@@ -1,7 +1,7 @@
 [Unit]
 Description=Paunch Container Shutdown
 Documentation=https://docs.openstack.org/developer/paunch/
-After=docker.service network-online.target iptables.service ip6tables.service
+After=pacemaker.service docker.service network-online.target iptables.service ip6tables.service
 Before=shutdown.target
 RefuseManualStop=yes
 
