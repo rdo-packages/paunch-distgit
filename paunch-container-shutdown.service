@@ -4,6 +4,7 @@ Documentation=https://docs.openstack.org/developer/paunch/
 After=pacemaker.service docker.service network-online.target iptables.service ip6tables.service
 Before=shutdown.target
 RefuseManualStop=yes
+Wants=docker.service
 
 [Service]
 Type=oneshot
