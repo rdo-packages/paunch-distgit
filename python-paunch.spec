@@ -32,6 +32,7 @@ Source12:   91-paunch-container-shutdown.preset
 
 BuildArch:  noarch
 Requires:   docker
+Requires:   paunch
 Requires:   findutils
 Requires:   paunch-services
 
