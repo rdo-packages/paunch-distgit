@@ -2,5 +2,8 @@
 TIMEOUT=${1:-90}
 PARALLEL=${2:-10}
 
-/usr/bin/docker ps --format \"{{.Names}}\" --filter "label=managed_by=paunch" | \
-  /usr/bin/xargs -n 1 -P $PARALLEL /usr/bin/docker stop --time=$TIMEOUT
+for cli in docker podman;
+do
+    /usr/bin/$cli ps --format \"{{.Names}}\" --filter "label=managed_by=paunch" | \
+      /usr/bin/xargs -n 1 -P $PARALLEL /usr/bin/$cli stop --time=$TIMEOUT
+done
