@@ -31,11 +31,6 @@ Source11:   paunch-container-shutdown.service
 Source12:   91-paunch-container-shutdown.preset
 
 BuildArch:  noarch
-Requires:   docker
-Requires:   podman
-Requires:   findutils
-Requires:   paunch-services
-
 
 %description
 %{common_desc}
@@ -59,6 +54,10 @@ BuildRequires:  python%{pydefault}-tenacity >= 3.2.1
 Requires:   python%{pydefault}-cliff
 Requires:   python%{pydefault}-pbr
 Requires:   python%{pydefault}-tenacity >= 3.2.1
+Requires:   docker
+Requires:   podman
+Requires:   findutils
+Requires:   paunch-services
 
 %if %{pydefault} == 2
 BuildRequires:  PyYAML
