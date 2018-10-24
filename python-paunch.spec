@@ -131,6 +131,12 @@ install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/paunch-container-shutdo
 # Install systemd preset
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_presetdir}/91-paunch-container-shutdown.preset
 
+# Install netns unit
+install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/netns-placeholder.service
+
+# Install systemd preset for netns unit
+install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.preset
+
 # generate html docs
 %{pydefault_bin} setup.py build_sphinx
 # remove the sphinx-build leftovers
