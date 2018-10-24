@@ -15,6 +15,8 @@ Source0:    https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_
 Source10:   paunch-container-shutdown
 Source11:   paunch-container-shutdown.service
 Source12:   91-paunch-container-shutdown.preset
+Source13:   netns-placeholder.service
+Source14:   91-netns-placeholder.preset
 
 BuildArch:  noarch
 BuildRequires:  python2-setuptools
@@ -38,6 +40,7 @@ Requires:   python2-psutil
 Requires:   PyYAML
 Requires:   python2-tenacity >= 3.2.1
 Requires:   findutils
+Requires:   iproute
 
 Requires(post): systemd
 Requires(preun): systemd
@@ -97,6 +100,12 @@ install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/paunch-container-shutdo
 # Install systemd preset
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_presetdir}/91-paunch-container-shutdown.preset
 
+# Install netns unit
+install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/netns-placeholder.service
+
+# Install systemd preset for netns unit
+install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.preset
+
 # generate html docs
 %{__python2} setup.py build_sphinx
 # remove the sphinx-build leftovers
@@ -119,6 +128,8 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{_libexecdir}/paunch-container-shutdown
 %{_unitdir}/paunch-container-shutdown.service
 %{_presetdir}/91-paunch-container-shutdown.preset
+%{_unitdir}/netns-placeholder.service
+%{_presetdir}/91-netns-placeholder.preset
 %exclude %{python2_sitelib}/%{pypi_name}/tests
 
 %files doc
