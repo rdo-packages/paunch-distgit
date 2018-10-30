@@ -150,9 +150,11 @@ PYTHON=python%{pydefault} %{pydefault_bin} setup.py test
 
 %post -n paunch-services
 %systemd_post paunch-container-shutdown.service
+%systemd_post netns-placeholder.service
 
 %preun -n paunch-services
 %systemd_preun paunch-container-shutdown.service
+%systemd_preun netns-placeholder.service
 
 %files -n python%{pydefault}-%{pypi_name}
 %doc README.rst
