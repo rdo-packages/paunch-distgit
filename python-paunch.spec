@@ -116,9 +116,11 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 
 %post
 %systemd_post paunch-container-shutdown.service
+%systemd_post netns-placeholder.service
 
 %preun
 %systemd_preun paunch-container-shutdown.service
+%systemd_preun netns-placeholder.service
 
 %files
 %doc README.rst
