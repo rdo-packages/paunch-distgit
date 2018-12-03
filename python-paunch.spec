@@ -180,3 +180,4 @@ PYTHON=python%{pydefault} %{pydefault_bin} setup.py test
 %{_presetdir}/91-netns-placeholder.preset
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack/paunch/commit/?id=08ac829d8e9aa0a2c2ca0fd68ae3a25bd9117b0d
