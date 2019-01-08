@@ -1,14 +1,14 @@
 # Macros for py2/py3 compatibility
 %if 0%{?fedora} || 0%{?rhel} > 7
-%global pydefault 3
+%global pyver 3
 %else
-%global pydefault 2
+%global pyver 2
 %endif
 
-%global pydefault_bin python%{pydefault}
-%global pydefault_sitelib %python%{pydefault}_sitelib
-%global pydefault_install %py%{pydefault}_install
-%global pydefault_build %py%{pydefault}_build
+%global pyver_bin python%{pyver}
+%global pyver_sitelib %python%{pyver}_sitelib
+%global pyver_install %py%{pyver}_install
+%global pyver_build %py%{pyver}_build
 # End of macros for py2/py3 compatibility
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
@@ -37,66 +37,66 @@ BuildArch:  noarch
 %description
 %{common_desc}
 
-%package -n python%{pydefault}-%{pypi_name}
-%{?python_provide:%python_provide python%{pydefault}-%{pypi_name}}
+%package -n python%{pyver}-%{pypi_name}
+%{?python_provide:%python_provide python%{pyver}-%{pypi_name}}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
-BuildRequires:  python%{pydefault}-setuptools
-BuildRequires:  python%{pydefault}-pbr
-BuildRequires:  python%{pydefault}-devel
+BuildRequires:  python%{pyver}-setuptools
+BuildRequires:  python%{pyver}-pbr
+BuildRequires:  python%{pyver}-devel
 
 # test requires
-BuildRequires:  python%{pydefault}-mock
-BuildRequires:  python%{pydefault}-oslotest
-BuildRequires:  python%{pydefault}-subunit
-BuildRequires:  python%{pydefault}-testrepository
-BuildRequires:  python%{pydefault}-testscenarios
-BuildRequires:  python%{pydefault}-tenacity >= 3.2.1
+BuildRequires:  python%{pyver}-mock
+BuildRequires:  python%{pyver}-oslotest
+BuildRequires:  python%{pyver}-subunit
+BuildRequires:  python%{pyver}-testrepository
+BuildRequires:  python%{pyver}-testscenarios
+BuildRequires:  python%{pyver}-tenacity >= 3.2.1
 
-Requires:   python%{pydefault}-cliff
-Requires:   python%{pydefault}-pbr
-Requires:   python%{pydefault}-tenacity >= 3.2.1
+Requires:   python%{pyver}-cliff
+Requires:   python%{pyver}-pbr
+Requires:   python%{pyver}-tenacity >= 3.2.1
 Requires:   docker
 Requires:   podman
 Requires:   findutils
 Requires:   paunch-services
 
-%if %{pydefault} == 2
+%if %{pyver} == 2
 BuildRequires:  PyYAML
 Requires:       PyYAML
 %else
-BuildRequires:  python%{pydefault}-PyYAML
-Requires:       python%{pydefault}-PyYAML
+BuildRequires:  python%{pyver}-PyYAML
+Requires:       python%{pyver}-PyYAML
 %endif
 
-%description -n python%{pydefault}-%{pypi_name}
+%description -n python%{pyver}-%{pypi_name}
 %{common_desc}
 
-%package -n python%{pydefault}-%{pypi_name}-doc
+%package -n python%{pyver}-%{pypi_name}-doc
 Summary: Documentation for paunch library and utility
 
-BuildRequires: python%{pydefault}-sphinx
-BuildRequires: python%{pydefault}-oslo-sphinx
-BuildRequires: python%{pydefault}-openstackdocstheme
+BuildRequires: python%{pyver}-sphinx
+BuildRequires: python%{pyver}-oslo-sphinx
+BuildRequires: python%{pyver}-openstackdocstheme
 BuildRequires: openstack-macros
 
-%description -n python%{pydefault}-%{pypi_name}-doc
+%description -n python%{pyver}-%{pypi_name}-doc
 %{common_desc}
 
 This package contains auto-generated documentation.
 
-%package -n python%{pydefault}-%{pypi_name}-tests
+%package -n python%{pyver}-%{pypi_name}-tests
 Summary: Tests for paunch library and utility
 
-Requires:  python%{pydefault}-%{pypi_name}
-Requires:  python%{pydefault}-mock
-Requires:  python%{pydefault}-oslotest
-Requires:  python%{pydefault}-subunit
-Requires:  python%{pydefault}-testrepository
-Requires:  python%{pydefault}-testscenarios
-Requires:  python%{pydefault}-tenacity >= 3.2.1
+Requires:  python%{pyver}-%{pypi_name}
+Requires:  python%{pyver}-mock
+Requires:  python%{pyver}-oslotest
+Requires:  python%{pyver}-subunit
+Requires:  python%{pyver}-testrepository
+Requires:  python%{pyver}-testscenarios
+Requires:  python%{pyver}-tenacity >= 3.2.1
 
-%description -n python%{pydefault}-%{pypi_name}-tests
+%description -n python%{pyver}-%{pypi_name}-tests
 %{common_desc}
 
 This package contains library and utility tests.
@@ -120,10 +120,10 @@ This package contains service definitions related to paunch
 %py_req_cleanup
 
 %build
-%pydefault_build
+%pyver_build
 
 %install
-%pydefault_install
+%pyver_install
 
 # Install shutdown script
 install -p -D -m 755 %{SOURCE10} %{buildroot}%{_libexecdir}/paunch-container-shutdown
@@ -141,12 +141,12 @@ install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/netns-placeholder.servi
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.preset
 
 # generate html docs
-%{pydefault_bin} setup.py build_sphinx
+%{pyver_bin} setup.py build_sphinx
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
-%check -n python%{pydefault}-%{pypi_name}
-PYTHON=python%{pydefault} %{pydefault_bin} setup.py test
+%check -n python%{pyver}-%{pypi_name}
+PYTHON=python%{pyver} %{pyver_bin} setup.py test
 
 %post -n paunch-services
 %systemd_post paunch-container-shutdown.service
@@ -156,20 +156,20 @@ PYTHON=python%{pydefault} %{pydefault_bin} setup.py test
 %systemd_preun paunch-container-shutdown.service
 %systemd_preun netns-placeholder.service
 
-%files -n python%{pydefault}-%{pypi_name}
+%files -n python%{pyver}-%{pypi_name}
 %doc README.rst
 %license LICENSE
 %{_bindir}/%{pypi_name}
-%{pydefault_sitelib}/%{pypi_name}*
-%exclude %{pydefault_sitelib}/%{pypi_name}/tests
+%{pyver_sitelib}/%{pypi_name}*
+%exclude %{pyver_sitelib}/%{pypi_name}/tests
 
-%files -n python%{pydefault}-%{pypi_name}-doc
+%files -n python%{pyver}-%{pypi_name}-doc
 %doc doc/build/html
 %license LICENSE
 
-%files -n python%{pydefault}-%{pypi_name}-tests
+%files -n python%{pyver}-%{pypi_name}-tests
 %license LICENSE
-%{pydefault_sitelib}/%{pypi_name}/tests
+%{pyver_sitelib}/%{pypi_name}/tests
 
 %files -n paunch-services
 %license LICENSE
