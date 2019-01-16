@@ -12,6 +12,7 @@
 # End of macros for py2/py3 compatibility
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+%global with_doc 1
 
 %global pypi_name paunch
 
@@ -44,7 +45,7 @@ Summary:    Library and utility to launch and manage containers using YAML based
 BuildRequires:  python%{pyver}-setuptools
 BuildRequires:  python%{pyver}-pbr
 BuildRequires:  python%{pyver}-devel
-
+BuildRequires: openstack-macros
 # test requires
 BuildRequires:  python%{pyver}-mock
 BuildRequires:  python%{pyver}-oslotest
@@ -72,18 +73,19 @@ Requires:       python%{pyver}-PyYAML
 %description -n python%{pyver}-%{pypi_name}
 %{common_desc}
 
+%if 0%{?with_doc}
 %package -n python%{pyver}-%{pypi_name}-doc
 Summary: Documentation for paunch library and utility
 
 BuildRequires: python%{pyver}-sphinx
 BuildRequires: python%{pyver}-oslo-sphinx
 BuildRequires: python%{pyver}-openstackdocstheme
-BuildRequires: openstack-macros
 
 %description -n python%{pyver}-%{pypi_name}-doc
 %{common_desc}
 
 This package contains auto-generated documentation.
+%endif
 
 %package -n python%{pyver}-%{pypi_name}-tests
 Summary: Tests for paunch library and utility
@@ -140,12 +142,14 @@ install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/netns-placeholder.servi
 # Install systemd preset for netns unit
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.preset
 
+%if 0%{?with_doc}
 # generate html docs
 %{pyver_bin} setup.py build_sphinx
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
+%endif
 
-%check -n python%{pyver}-%{pypi_name}
+%check
 PYTHON=python%{pyver} %{pyver_bin} setup.py test
 
 %post -n paunch-services
@@ -163,9 +167,11 @@ PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %{pyver_sitelib}/%{pypi_name}*
 %exclude %{pyver_sitelib}/%{pypi_name}/tests
 
+%if 0%{?with_doc}
 %files -n python%{pyver}-%{pypi_name}-doc
 %doc doc/build/html
 %license LICENSE
+%endif
 
 %files -n python%{pyver}-%{pypi_name}-tests
 %license LICENSE
