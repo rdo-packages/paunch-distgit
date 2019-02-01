@@ -47,6 +47,7 @@ BuildRequires:  python%{pyver}-pbr
 BuildRequires:  python%{pyver}-devel
 BuildRequires: openstack-macros
 # test requires
+BuildRequires:  python%{pyver}-jmespath
 BuildRequires:  python%{pyver}-mock
 BuildRequires:  python%{pyver}-oslotest
 BuildRequires:  python%{pyver}-subunit
