@@ -2,6 +2,8 @@
 TIMEOUT=${1:-90}
 PARALLEL=${2:-10}
 
+# Note: docker.service will be removed once CentOS8 / RHEL8 will be the default
+# platform, but for now we keep it for Pacemaker testing.
 for cli in docker podman;
 do
     if command -v $cli >/dev/null; then

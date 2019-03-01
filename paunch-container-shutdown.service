@@ -1,6 +1,8 @@
 [Unit]
 Description=Paunch Container Shutdown
 Documentation=https://docs.openstack.org/developer/paunch/
+# Note: docker.service will be removed once CentOS8 / RHEL8 will be the default
+# platform, but for now we keep it for Pacemaker testing.
 After=pacemaker.service docker.service network-online.target iptables.service ip6tables.service
 Before=shutdown.target
 RefuseManualStop=yes
