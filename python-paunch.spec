@@ -52,6 +52,7 @@ BuildRequires:  python%{pyver}-mock
 BuildRequires:  python%{pyver}-oslotest
 BuildRequires:  python%{pyver}-subunit
 BuildRequires:  python%{pyver}-testrepository
+BuildRequires:  python%{pyver}-stestr
 BuildRequires:  python%{pyver}-testscenarios
 BuildRequires:  python%{pyver}-tenacity >= 3.2.1
 
@@ -96,6 +97,7 @@ Requires:  python%{pyver}-mock
 Requires:  python%{pyver}-oslotest
 Requires:  python%{pyver}-subunit
 Requires:  python%{pyver}-testrepository
+Requires:  python%{pyver}-stestr
 Requires:  python%{pyver}-testscenarios
 Requires:  python%{pyver}-tenacity >= 3.2.1
 
