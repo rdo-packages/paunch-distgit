@@ -1,13 +1,14 @@
 #!/bin/bash
+# This script does nothing on a system with dnf & podman.
+# It's only useful when deploying TripleO Stein and beyond on CentOS7 and
+# Pacemaker enabled.
+
 TIMEOUT=${1:-90}
 PARALLEL=${2:-10}
 
-# Note: docker.service will be removed once CentOS8 / RHEL8 will be the default
-# platform, but for now we keep it for Pacemaker testing.
-for cli in docker podman;
-do
-    if command -v $cli >/dev/null; then
-        /usr/bin/$cli ps --format \"{{.Names}}\" --filter "label=managed_by=paunch" | \
-          /usr/bin/xargs -n 1 -P $PARALLEL /usr/bin/$cli stop --time=$TIMEOUT
+if ! command -v dnf >/dev/null;then
+    if command -v docker >/dev/null; then
+        /usr/bin/docker ps --format \"{{.Names}}\" --filter "label=managed_by=paunch" | \
+          /usr/bin/xargs -n 1 -P $PARALLEL /usr/bin/docker stop --time=$TIMEOUT
     fi
-done
+fi
