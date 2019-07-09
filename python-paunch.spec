@@ -32,6 +32,7 @@ Source11:   paunch-container-shutdown.service
 Source12:   91-paunch-container-shutdown.preset
 Source13:   netns-placeholder.service
 Source14:   91-netns-placeholder.preset
+Source15:   paunch-start-podman-container
 
 BuildArch:  noarch
 
@@ -131,6 +132,9 @@ This package contains service definitions related to paunch
 # Install shutdown script
 install -p -D -m 755 %{SOURCE10} %{buildroot}%{_libexecdir}/paunch-container-shutdown
 
+# Install podman start script
+install -p -D -m 755 %{SOURCE15} %{buildroot}%{_libexecdir}/paunch-start-podman-container
+
 # Install systemd units
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/paunch-container-shutdown.service
 
@@ -181,6 +185,7 @@ PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %files -n paunch-services
 %license LICENSE
 %{_libexecdir}/paunch-container-shutdown
+%{_libexecdir}/paunch-start-podman-container
 %{_unitdir}/paunch-container-shutdown.service
 %{_presetdir}/91-paunch-container-shutdown.preset
 %{_unitdir}/netns-placeholder.service
