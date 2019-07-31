@@ -10,7 +10,7 @@ if [ -z "$NAME" ]; then
 fi
 
 # Start container. Podman does not fail if container is already started
-CID=$($PODMAN start $NAME)
+$PODMAN start $NAME
 rc=$?
 
 if [ $rc -ne 0 ]; then
@@ -26,6 +26,17 @@ fi
 if [ ! -f "/etc/sysconfig/podman_drop_in" ]; then
     exit 0
 fi
+
+# Retrieve the container's ID
+# Note: currently the only API to retrieve the CID is either
+# 1) via "podman inspect" but we don't want to use it because it can be
+# very slow under IO load.
+# 2) by running "podman start $NAME" but that command only returns the CID
+# if the container is already running. Otherwise it returns the container
+# name, which would break us.
+# The only other means is via "podman ps". ps option "--filter" cannot
+# enforce full name matches, so use grep instead and stop at first match.
+CID=$($PODMAN ps --no-trunc --format '{{.ID}} {{.Names}}' | grep -F -w -m1 "$NAME" | cut -d' ' -f1)
 
 if [ -z "$CID" ]; then
     echo "Container ID not found for \"$NAME\". Not creating drop-in dependency" 2>&1
