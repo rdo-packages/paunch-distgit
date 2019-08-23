@@ -19,7 +19,6 @@
 %global common_desc \
 Library and utility to launch and manage containers using YAML based configuration data.
 
-
 Name:       python-%{pypi_name}
 Version:    4.5.0
 Release:    1%{?dist}
