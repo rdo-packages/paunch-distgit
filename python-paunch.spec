@@ -51,6 +51,7 @@ BuildRequires: openstack-macros
 BuildRequires:  python%{pyver}-jmespath
 BuildRequires:  python%{pyver}-mock
 BuildRequires:  python%{pyver}-oslotest
+BuildRequires:  python%{pyver}-psutil
 BuildRequires:  python%{pyver}-subunit
 BuildRequires:  python%{pyver}-testrepository
 BuildRequires:  python%{pyver}-testscenarios
@@ -60,6 +61,7 @@ Requires:   python%{pyver}-cliff
 Requires:   python%{pyver}-jmespath
 Requires:   python%{pyver}-pbr
 Requires:   python%{pyver}-tenacity >= 3.2.1
+Requires:   python%{pyver}-psutil
 Requires:   podman
 Requires:   findutils
 Requires:   paunch-services
