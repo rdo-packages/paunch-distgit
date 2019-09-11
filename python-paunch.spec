@@ -20,6 +20,7 @@ BuildArch:  noarch
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pbr
 BuildRequires:  python2-devel
+BuildRequires:  python2-psutil
 BuildRequires:  PyYAML
 BuildRequires:  systemd-units
 
@@ -33,6 +34,7 @@ BuildRequires:  python2-tenacity >= 3.2.1
 Requires:   python2-cliff
 Requires:   docker
 Requires:   python2-pbr
+Requires:   python2-psutil
 Requires:   PyYAML
 Requires:   python2-tenacity >= 3.2.1
 Requires:   findutils
