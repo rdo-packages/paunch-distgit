@@ -61,6 +61,7 @@ Requires:   python%{pyver}-cliff
 Requires:   python%{pyver}-jmespath
 Requires:   python%{pyver}-pbr
 Requires:   python%{pyver}-tenacity >= 3.2.1
+Requires:   python%{pyver}-psutil
 Requires:   podman
 Requires:   findutils
 Requires:   paunch-services
