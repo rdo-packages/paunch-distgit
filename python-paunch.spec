@@ -83,7 +83,6 @@ Requires:       python%{pyver}-PyYAML
 Summary: Documentation for paunch library and utility
 
 BuildRequires: python%{pyver}-sphinx
-BuildRequires: python%{pyver}-oslo-sphinx
 BuildRequires: python%{pyver}-openstackdocstheme
 
 %description -n python%{pyver}-%{pypi_name}-doc
