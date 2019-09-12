@@ -52,6 +52,7 @@ BuildRequires:  python%{pyver}-cliff
 BuildRequires:  python%{pyver}-jmespath
 BuildRequires:  python%{pyver}-mock
 BuildRequires:  python%{pyver}-oslotest
+BuildRequires:  python%{pyver}-psutil
 BuildRequires:  python%{pyver}-subunit
 BuildRequires:  python%{pyver}-testrepository
 BuildRequires:  python%{pyver}-testscenarios
