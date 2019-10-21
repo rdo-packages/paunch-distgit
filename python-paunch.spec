@@ -20,8 +20,8 @@
 Library and utility to launch and manage containers using YAML based configuration data.
 
 Name:       python-%{pypi_name}
-Version:    XXX
-Release:    XXX
+Version:    5.3.0
+Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
 License:    ASL 2.0
@@ -192,3 +192,6 @@ PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %{_presetdir}/91-netns-placeholder.preset
 
 %changelog
+* Mon Oct 21 2019 RDO <dev@lists.rdoproject.org> 5.3.0-1
+- Update to 5.3.0
+
