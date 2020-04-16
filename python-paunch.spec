@@ -1,15 +1,3 @@
-# Macros for py2/py3 compatibility
-%if 0%{?fedora} || 0%{?rhel} > 7
-%global pyver 3
-%else
-%global pyver 2
-%endif
-
-%global pyver_bin python%{pyver}
-%global pyver_sitelib %python%{pyver}_sitelib
-%global pyver_install %py%{pyver}_install
-%global pyver_build %py%{pyver}_build
-# End of macros for py2/py3 compatibility
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 %global with_doc 1
@@ -39,68 +27,63 @@ BuildArch:  noarch
 %description
 %{common_desc}
 
-%package -n python%{pyver}-%{pypi_name}
-%{?python_provide:%python_provide python%{pyver}-%{pypi_name}}
+%package -n python3-%{pypi_name}
+%{?python_provide:%python_provide python3-%{pypi_name}}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
-BuildRequires:  python%{pyver}-setuptools
-BuildRequires:  python%{pyver}-pbr
-BuildRequires:  python%{pyver}-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-pbr
+BuildRequires:  python3-devel
 BuildRequires: openstack-macros
 # test requires
-BuildRequires:  python%{pyver}-cliff
-BuildRequires:  python%{pyver}-jmespath
-BuildRequires:  python%{pyver}-mock
-BuildRequires:  python%{pyver}-oslotest
-BuildRequires:  python%{pyver}-psutil
-BuildRequires:  python%{pyver}-subunit
-BuildRequires:  python%{pyver}-stestr
-BuildRequires:  python%{pyver}-tenacity >= 3.2.1
+BuildRequires:  python3-cliff
+BuildRequires:  python3-jmespath
+BuildRequires:  python3-mock
+BuildRequires:  python3-oslotest
+BuildRequires:  python3-psutil
+BuildRequires:  python3-subunit
+BuildRequires:  python3-stestr
+BuildRequires:  python3-tenacity >= 3.2.1
 
-Requires:   python%{pyver}-cliff
-Requires:   python%{pyver}-jmespath
-Requires:   python%{pyver}-pbr
-Requires:   python%{pyver}-tenacity >= 3.2.1
-Requires:   python%{pyver}-psutil
+Requires:   python3-cliff
+Requires:   python3-jmespath
+Requires:   python3-pbr
+Requires:   python3-tenacity >= 3.2.1
+Requires:   python3-psutil
 Requires:   podman
 Requires:   findutils
 Requires:   paunch-services
 
-%if %{pyver} == 2
-BuildRequires:  PyYAML
-Requires:       PyYAML
-%else
-BuildRequires:  python%{pyver}-PyYAML
-Requires:       python%{pyver}-PyYAML
-%endif
+BuildRequires:  python3-PyYAML
+Requires:       python3-PyYAML
 
-%description -n python%{pyver}-%{pypi_name}
+%description -n python3-%{pypi_name}
 %{common_desc}
 
 %if 0%{?with_doc}
-%package -n python%{pyver}-%{pypi_name}-doc
+%package -n python3-%{pypi_name}-doc
 Summary: Documentation for paunch library and utility
 
-BuildRequires: python%{pyver}-sphinx
-BuildRequires: python%{pyver}-openstackdocstheme
+BuildRequires: python3-sphinx
+BuildRequires: python3-openstackdocstheme
 
-%description -n python%{pyver}-%{pypi_name}-doc
+%description -n python3-%{pypi_name}-doc
 %{common_desc}
 
 This package contains auto-generated documentation.
 %endif
 
-%package -n python%{pyver}-%{pypi_name}-tests
+%package -n python3-%{pypi_name}-tests
 Summary: Tests for paunch library and utility
 
-Requires:  python%{pyver}-%{pypi_name}
-Requires:  python%{pyver}-mock
-Requires:  python%{pyver}-oslotest
-Requires:  python%{pyver}-subunit
-Requires:  python%{pyver}-stestr
-Requires:  python%{pyver}-tenacity >= 3.2.1
+Requires:  python3-%{pypi_name}
+Requires:  python3-mock
+Requires:  python3-oslotest
+Requires:  python3-subunit
+Requires:  python3-stestr
+Requires:  python3-tenacity >= 3.2.1
 
-%description -n python%{pyver}-%{pypi_name}-tests
+%description -n python3-%{pypi_name}-tests
 %{common_desc}
 
 This package contains library and utility tests.
@@ -124,10 +107,10 @@ This package contains service definitions related to paunch
 %py_req_cleanup
 
 %build
-%pyver_build
+%py3_build
 
 %install
-%pyver_install
+%py3_install
 
 # Install shutdown script
 install -p -D -m 755 %{SOURCE10} %{buildroot}%{_libexecdir}/paunch-container-shutdown
@@ -149,13 +132,13 @@ install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.
 
 %if 0%{?with_doc}
 # generate html docs
-%{pyver_bin} setup.py build_sphinx
+%{__python3} setup.py build_sphinx
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %check
-PYTHON=python%{pyver} %{pyver_bin} setup.py test
+PYTHON=%{__python3} %{__python3} setup.py test
 
 %post -n paunch-services
 %systemd_post paunch-container-shutdown.service
@@ -165,22 +148,22 @@ PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %systemd_preun paunch-container-shutdown.service
 %systemd_preun netns-placeholder.service
 
-%files -n python%{pyver}-%{pypi_name}
+%files -n python3-%{pypi_name}
 %doc README.rst
 %license LICENSE
 %{_bindir}/%{pypi_name}
-%{pyver_sitelib}/%{pypi_name}*
-%exclude %{pyver_sitelib}/%{pypi_name}/tests
+%{python3_sitelib}/%{pypi_name}*
+%exclude %{python3_sitelib}/%{pypi_name}/tests
 
 %if 0%{?with_doc}
-%files -n python%{pyver}-%{pypi_name}-doc
+%files -n python3-%{pypi_name}-doc
 %doc doc/build/html
 %license LICENSE
 %endif
 
-%files -n python%{pyver}-%{pypi_name}-tests
+%files -n python3-%{pypi_name}-tests
 %license LICENSE
-%{pyver_sitelib}/%{pypi_name}/tests
+%{python3_sitelib}/%{pypi_name}/tests
 
 %files -n paunch-services
 %license LICENSE
