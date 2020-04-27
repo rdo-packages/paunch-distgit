@@ -132,7 +132,7 @@ install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.
 
 %if 0%{?with_doc}
 # generate html docs
-%{__python3} setup.py build_sphinx
+sphinx-build -W -b html doc/source doc/build/html
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
