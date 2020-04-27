@@ -34,7 +34,8 @@ Summary:    Library and utility to launch and manage containers using YAML based
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pbr
 BuildRequires:  python3-devel
-BuildRequires: openstack-macros
+BuildRequires:  openstack-macros
+BuildRequires:  git
 # test requires
 BuildRequires:  python3-cliff
 BuildRequires:  python3-jmespath
@@ -101,7 +102,7 @@ This package contains service definitions related to paunch
 
 
 %prep
-%setup -q -n %{pypi_name}-%{upstream_version}
+%autosetup -n %{pypi_name}-%{upstream_version} -S git
 
 # Let's handle dependencies ourseleves
 %py_req_cleanup
@@ -132,7 +133,7 @@ install -p -D -m 644 %{SOURCE14} %{buildroot}%{_presetdir}/91-netns-placeholder.
 
 %if 0%{?with_doc}
 # generate html docs
-%{__python3} setup.py build_sphinx
+sphinx-build-3 -W -b html doc/source doc/build/html
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
