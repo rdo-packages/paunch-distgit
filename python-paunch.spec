@@ -62,7 +62,11 @@ Requires:   python%{pyver}-jmespath
 Requires:   python%{pyver}-pbr
 Requires:   python%{pyver}-tenacity >= 3.2.1
 Requires:   python%{pyver}-psutil
+%if 0%{?rhel} > 7
+Requires:   podman == 1.6.4
+%else
 Requires:   podman
+%endif
 Requires:   findutils
 Requires:   paunch-services
 
