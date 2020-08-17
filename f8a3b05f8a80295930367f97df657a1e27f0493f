@@ -1,0 +1,9 @@
+Code-Review+2: Alex Schultz <aschultz@next-development.com>
+Code-Review+2: Emilien Macchi <emilien@redhat.com>
+Workflow+1: Emilien Macchi <emilien@redhat.com>
+Verified+2: Zuul CI <zuul@review.rdoproject.org>
+Submitted-by: Zuul CI <zuul@review.rdoproject.org>
+Submitted-at: Mon, 17 Aug 2020 15:39:04 +0000
+Reviewed-on: https://review.rdoproject.org/r/28930
+Project: openstack/paunch-distgit
+Branch: refs/heads/train-rdo
