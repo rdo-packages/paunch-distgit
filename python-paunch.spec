@@ -11,6 +11,10 @@
 %global pyver_build %{expand:%{py%{pyver}_build}}
 # End of macros for py2/py3 compatibility
 
+%global rhosp 0
+%define rhel_minor_version %(rhel_version_file="/etc/redhat-release";
+if [ -f $rhel_version_file ]; then grep -oP '.*8\.\K([0-9]+)' $rhel_version_file||echo 0; else echo 0; fi)
+
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 %global with_doc 1
 
@@ -63,7 +67,11 @@ Requires:   python%{pyver}-pbr
 Requires:   python%{pyver}-tenacity >= 3.2.1
 Requires:   python%{pyver}-psutil
 %if 0%{?rhel} > 7
+%if 0%{?rhosp} == 0 || 0%{?rhel_minor_version} <= 2
 Requires:   podman == 1.6.4
+%else
+Requires:   podman
+%endif
 %else
 Requires:   podman
 %endif
