@@ -13,7 +13,7 @@
 
 %global rhosp 0
 %define rhel_minor_version %(rhel_version_file="/etc/redhat-release";
-if [ -f $rhel_version_file ]; then grep -oP '.*8\.\K([0-9]+)' $rhel_version_file||echo 0; else echo 0; fi)
+if [ -f $rhel_version_file ]; then grep -oP '.*8\\.\\K([0-9]+)' $rhel_version_file||echo 0; else echo 0; fi)
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 %global with_doc 1
