@@ -35,7 +35,7 @@ BuildRequires:  python3-setuptools
 BuildRequires:  python3-pbr
 BuildRequires:  python3-devel
 BuildRequires:  openstack-macros
-BuildRequires:  git
+BuildRequires:  git-core
 # test requires
 BuildRequires:  python3-cliff
 BuildRequires:  python3-jmespath
