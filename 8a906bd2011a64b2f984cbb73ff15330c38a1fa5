@@ -1,0 +1,9 @@
+Code-Review+2: Javier Peña <jpena@redhat.com>
+Code-Review+2: Joel Capitao <jcapitao@redhat.com>
+Verified+2: Yatin Karel <ykarel@redhat.com>
+Workflow+1: Yatin Karel <ykarel@redhat.com>
+Submitted-by: Yatin Karel <ykarel@redhat.com>
+Submitted-at: Thu, 19 Nov 2020 12:53:18 +0000
+Reviewed-on: https://review.rdoproject.org/r/31140
+Project: openstack/paunch-distgit
+Branch: refs/heads/rpm-master
