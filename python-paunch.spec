@@ -68,7 +68,7 @@ Requires:   python%{pyver}-tenacity >= 3.2.1
 Requires:   python%{pyver}-psutil
 %if 0%{?rhel} > 7
 %if 0%{?rhosp} == 0 || 0%{?rhel_minor_version} <= 2
-Requires:   podman == 1.6.4
+Requires:   podman >= 1.6.4
 %else
 Requires:   podman
 %endif
