@@ -51,7 +51,7 @@ Requires:   python3-jmespath
 Requires:   python3-pbr
 Requires:   python3-tenacity >= 3.2.1
 Requires:   python3-psutil
-Requires:   podman == 1.6.4
+Requires:   podman >= 1.6.4
 Requires:   findutils
 Requires:   paunch-services
 
