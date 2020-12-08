@@ -8,13 +8,13 @@
 Library and utility to launch and manage containers using YAML based configuration data.
 
 Name:       python-%{pypi_name}
-Version:    7.0.2
+Version:    7.0.3
 Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{pypi_name}
-Source0:    https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
+Source0:    https://tarballs.opendev.org/openstack/paunch/paunch-stable-ussuri.tar.gz
 Source10:   paunch-container-shutdown
 Source11:   paunch-container-shutdown.service
 Source12:   91-paunch-container-shutdown.preset
@@ -51,7 +51,7 @@ Requires:   python3-jmespath
 Requires:   python3-pbr
 Requires:   python3-tenacity >= 3.2.1
 Requires:   python3-psutil
-Requires:   podman == 1.6.4
+Requires:   podman >= 1.6.4
 Requires:   findutils
 Requires:   paunch-services
 
@@ -176,6 +176,9 @@ PYTHON=%{__python3} %{__python3} setup.py test
 %{_presetdir}/91-netns-placeholder.preset
 
 %changelog
+* Mon Oct 05 2020 RDO <dev@lists.rdoproject.org> 7.0.3-1
+- Update to 7.0.3
+
 * Mon Oct 05 2020 RDO <dev@lists.rdoproject.org> 7.0.2-1
 - Update to 7.0.2
 
