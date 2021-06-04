@@ -24,7 +24,7 @@ if [ -f $rhel_version_file ]; then grep -oP '.*8\\.\\K([0-9]+)' $rhel_version_fi
 Library and utility to launch and manage containers using YAML based configuration data.
 
 Name:       python-%{pypi_name}
-Version:    5.5.0
+Version:    5.5.1
 Release:    1%{?dist}
 Summary:    Library and utility to launch and manage containers using YAML based configuration data
 
@@ -204,6 +204,9 @@ PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %{_presetdir}/91-netns-placeholder.preset
 
 %changelog
+* Fri Jun 04 2021 RDO <dev@lists.rdoproject.org> 5.5.1-1
+- Update to 5.5.1
+
 * Mon Apr 05 2021 RDO <dev@lists.rdoproject.org> 5.5.0-1
 - Update to 5.5.0
 
